@@ -40,7 +40,7 @@
       let song_request = () => {
         $.ajax({
           type: "GET",
-          url: `http://localhost:8001/connect/${$('#song').val()}/`,
+          url: `http://localhost:8001/connect/${$('#song').val().replace(/ /g,"-")}/`,
         })
 
         songsRef.push({
