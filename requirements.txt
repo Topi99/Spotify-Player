@@ -1,0 +1,8 @@
+cffi==1.11.5
+Django==2.0.4
+django-cors-headers==2.2.0
+pkg-resources==0.0.0
+pycparser==2.18
+pyspotify==2.0.5
+pytz==2018.4
+selenium==3.11.0
