@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Buscador</title>
+  </head>
+  <body>
+    <div class="form">
+      <div class="form--item">
+        <input type="text" name="song" id="song">
+      </div>
+      <div class="form--item">
+        <button id="enviar">Buscar</button>
+      </div>
+    </div>
+
+    <div class="songs">
+      <ul class="list">
+
+      </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCFgXdAMN03CxvXpDVolRI_Fq8L_dUWT5Y",
+        authDomain: "instademo-88857.firebaseapp.com",
+        databaseURL: "https://instademo-88857.firebaseio.com",
+        projectId: "instademo-88857",
+        storageBucket: "instademo-88857.appspot.com",
+        messagingSenderId: "1081793069106"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script>
+      let database = firebase.database();
+      let songsRef = database.ref('/').child('songs/');
+      let song_request = () => {
+        $.ajax({
+          type: "GET",
+          url: `http://localhost:8001/connect/${$('#song').val()}/`,
+        })
+
+        songsRef.push({
+          song: $('#song').val(),
+        });
+      }
+
+      $(document).ready(() => {
+        $('#enviar').click(song_request);
+
+      });
+
+      songsRef.on('child_added', function(snapshot) {
+        Object.keys(snapshot.val()).map((key, index) => {
+          console.log(snapshot.val()[key]);
+          $('.list').append(`<li>${snapshot.val()[key]}</li>`)
+        });
+      });
+    </script>
+  </body>
+</html>
